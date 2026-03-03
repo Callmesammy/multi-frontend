@@ -4,6 +4,7 @@ import type { User } from "@/types/user";
 export interface LoginRequest {
   email: string;
   password: string;
+  organizationId: string;
 }
 
 export interface RegisterOrganizationRequest {

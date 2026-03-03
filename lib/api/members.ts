@@ -1,4 +1,7 @@
+import axios from "axios";
+
 import { client } from "@/lib/api/client";
+import { unwrapApiResponse, type ApiResponse } from "@/lib/api/response";
 import type { AuthResponse } from "@/types/auth";
 import type { User } from "@/types/user";
 
@@ -16,23 +19,111 @@ export interface InviteMemberResponse {
   message?: string;
 }
 
+interface BackendAuthResponse {
+  userId: string;
+  email: string;
+  organizationId: string;
+  organizationName: string;
+  token: string;
+  role: string;
+}
+
+interface BackendInviteResponse {
+  message?: string;
+}
+
+interface BackendAcceptInviteRequest {
+  token: string;
+  password?: string;
+  firstName?: string;
+  lastName?: string;
+}
+
+function deriveDisplayName(email: string): string {
+  const localPart = email.split("@")[0];
+  return localPart || "User";
+}
+
+function mapAuthResponse(payload: BackendAuthResponse): AuthResponse {
+  return {
+    token: payload.token,
+    user: {
+      id: payload.userId,
+      email: payload.email,
+      name: deriveDisplayName(payload.email),
+      role: payload.role === "Admin" ? "Admin" : "Member",
+    },
+    organization: {
+      id: payload.organizationId,
+      name: payload.organizationName,
+    },
+  };
+}
+
+function splitName(name?: string): { firstName?: string; lastName?: string } {
+  if (!name) return {};
+
+  const parts = name
+    .split(" ")
+    .map((part) => part.trim())
+    .filter(Boolean);
+
+  if (parts.length === 0) return {};
+  if (parts.length === 1) return { firstName: parts[0] };
+
+  return {
+    firstName: parts[0],
+    lastName: parts.slice(1).join(" "),
+  };
+}
+
 export async function getOrganizationMembers(orgId: string): Promise<User[]> {
-  const response = await client.get<User[]>(`/api/organizations/${orgId}/members`);
-  return response.data;
+  const endpoints = [
+    `/api/organizations/${orgId}/members`,
+    `/api/Organization/${orgId}/members`,
+  ];
+
+  for (const endpoint of endpoints) {
+    try {
+      const response = await client.get<ApiResponse<User[]>>(endpoint);
+      return unwrapApiResponse(response.data);
+    } catch (error: unknown) {
+      if (!axios.isAxiosError(error) || error.response?.status !== 404) {
+        throw error;
+      }
+    }
+  }
+
+  // Some backend builds do not expose a members listing endpoint yet.
+  // Return an empty list so the Members page can still render and invites can work.
+  return [];
 }
 
 export async function inviteMember(
   orgId: string,
   payload: InviteMemberRequest,
 ): Promise<InviteMemberResponse> {
-  const response = await client.post<InviteMemberResponse>(
-    `/api/organizations/${orgId}/invites`,
+  const response = await client.post<ApiResponse<BackendInviteResponse>>(
+    `/api/Invite/organizations/${orgId}`,
     payload,
   );
-  return response.data;
+
+  const data = unwrapApiResponse(response.data);
+  return { message: data.message };
 }
 
 export async function acceptInvite(payload: AcceptInviteRequest): Promise<AuthResponse> {
-  const response = await client.post<AuthResponse>("/api/invites/accept", payload);
-  return response.data;
+  const nameParts = splitName(payload.name);
+  const backendPayload: BackendAcceptInviteRequest = {
+    token: payload.token,
+    password: payload.password,
+    firstName: nameParts.firstName,
+    lastName: nameParts.lastName,
+  };
+
+  const response = await client.post<ApiResponse<BackendAuthResponse>>(
+    "/api/Invite/accept",
+    backendPayload,
+  );
+  return mapAuthResponse(unwrapApiResponse(response.data));
 }

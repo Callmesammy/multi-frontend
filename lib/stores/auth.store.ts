@@ -10,6 +10,7 @@ interface AuthState {
   token: string | null;
   user: User | null;
   org: Organization | null;
+  lastOrgId: string | null;
   setAuth: (token: string, user: User, org: Organization) => void;
   clearAuth: () => void;
 }
@@ -37,9 +38,10 @@ export const useAuthStore = create<AuthState>()(
       token: null,
       user: null,
       org: null,
+      lastOrgId: null,
       setAuth: (token, user, org) => {
         setAuthCookie(token);
-        set({ token, user, org });
+        set({ token, user, org, lastOrgId: org.id });
       },
       clearAuth: () => {
         clearAuthCookie();
