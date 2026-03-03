@@ -115,6 +115,13 @@
   margin-top: 1rem;
 }
 
+.heroTop {
+  display: grid;
+  grid-template-columns: 1fr 0.95fr;
+  gap: 0.9rem;
+  align-items: end;
+}
+
 .clip {
   overflow: hidden;
 }
@@ -137,6 +144,67 @@
   color: var(--accent);
 }
 
+.heroVideoCard {
+  position: relative;
+  overflow: hidden;
+  min-height: 380px;
+  border: 1px solid rgb(243 235 215 / 24%);
+  background: #050505;
+}
+
+.heroVideo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.heroVideoOverlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top, rgb(0 0 0 / 78%), rgb(0 0 0 / 20%)),
+    radial-gradient(circle at 80% 20%, rgb(241 14 55 / 24%), transparent 44%);
+}
+
+.videoGlow {
+  position: absolute;
+  width: 130px;
+  height: 130px;
+  right: 1rem;
+  top: 1rem;
+  border-radius: 999px;
+  opacity: 0.55;
+  background: rgb(241 14 55 / 50%);
+  filter: blur(28px);
+}
+
+.heroVideoTag {
+  position: absolute;
+  left: 0.9rem;
+  bottom: 3.1rem;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #f3ebd7cf;
+}
+
+.heroVideoText {
+  position: absolute;
+  left: 0.9rem;
+  right: 0.9rem;
+  bottom: 0.8rem;
+  margin: 0;
+  font-family: var(--font-display), Impact, sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  line-height: 0.95;
+  text-transform: lowercase;
+  color: var(--ink);
+}
+
 .copy {
   width: min(54ch, 95%);
   margin: 1.3rem 0 0;
@@ -150,6 +218,48 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.9rem;
   margin-top: 1.6rem;
+}
+
+.heroMedia {
+  margin-top: 1.2rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.mediaCard {
+  position: relative;
+  overflow: hidden;
+  min-height: 240px;
+  border: 1px solid rgb(243 235 215 / 24%);
+  background: #0a0a0a;
+}
+
+.mediaImageWrap {
+  position: absolute;
+  inset: 0;
+}
+
+.mediaImage {
+  object-fit: cover;
+}
+
+.mediaGradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgb(0 0 0 / 68%), rgb(0 0 0 / 12%));
+}
+
+.mediaTag {
+  position: absolute;
+  left: 0.75rem;
+  bottom: 0.72rem;
+  margin: 0;
+  font-family: var(--font-display), Impact, sans-serif;
+  text-transform: lowercase;
+  letter-spacing: 0.03em;
+  font-size: clamp(1.3rem, 3vw, 2rem);
+  color: var(--ink);
 }
 
 .metricCard {
@@ -253,6 +363,51 @@
   border-top: 1px solid rgb(243 235 215 / 24%);
 }
 
+.visualBreak {
+  margin-top: clamp(2.8rem, 7vw, 6rem);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.95rem;
+}
+
+.visualImage {
+  position: relative;
+  min-height: 320px;
+  overflow: hidden;
+  border: 1px solid rgb(243 235 215 / 24%);
+}
+
+.visualCopy {
+  padding: 1.2rem;
+  border: 1px solid rgb(243 235 215 / 24%);
+  background: linear-gradient(145deg, rgb(243 235 215 / 8%), rgb(243 235 215 / 2%));
+}
+
+.visualKicker {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.19em;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.visualTitle {
+  margin: 0.85rem 0 0;
+  font-family: var(--font-display), Impact, sans-serif;
+  text-transform: lowercase;
+  line-height: 0.9;
+  font-size: clamp(2.4rem, 6vw, 4.6rem);
+  color: var(--accent);
+}
+
+.visualText {
+  margin: 0.8rem 0 0;
+  color: var(--muted);
+  line-height: 1.6;
+  font-size: 0.97rem;
+}
+
 .freeHeadline {
   margin: 0;
   text-transform: lowercase;
@@ -281,11 +436,25 @@
 
 @media (max-width: 900px) {
   .metricRow,
-  .stepsGrid {
+  .stepsGrid,
+  .heroMedia,
+  .visualBreak {
     grid-template-columns: 1fr;
+  }
+
+  .heroTop {
+    grid-template-columns: 1fr;
+  }
+
+  .heroVideoCard {
+    min-height: 280px;
   }
 
   .stepCard {
     min-height: auto;
+  }
+
+  .visualImage {
+    min-height: 240px;
   }
 }

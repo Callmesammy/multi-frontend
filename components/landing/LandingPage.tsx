@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useLayoutEffect, useRef } from "react";
 import { Bebas_Neue, Manrope } from "next/font/google";
@@ -39,6 +40,19 @@ const steps = [
   },
 ];
 
+const gallery = [
+  {
+    src: "/auth/login-bg.jpg",
+    alt: "Focused desk workspace with laptop and warm lighting",
+    tag: "focus mode",
+  },
+  {
+    src: "/auth/signup-bg.jpg",
+    alt: "Abstract colorful texture with vivid gradients",
+    tag: "creative energy",
+  },
+];
+
 export default function LandingPage() {
   const rootRef = useRef<HTMLDivElement>(null);
 
@@ -74,6 +88,16 @@ export default function LandingPage() {
           "-=0.65"
         )
         .from(
+          "[data-anim='hero-video']",
+          {
+            y: 52,
+            opacity: 0,
+            scale: 0.94,
+            duration: 0.84,
+          },
+          "-=0.62"
+        )
+        .from(
           "[data-anim='phone-card']",
           {
             y: 70,
@@ -82,6 +106,16 @@ export default function LandingPage() {
             duration: 0.8,
           },
           "-=0.55"
+        )
+        .from(
+          "[data-anim='media-card']",
+          {
+            y: 54,
+            opacity: 0,
+            stagger: 0.14,
+            duration: 0.75,
+          },
+          "-=0.45"
         );
 
       gsap.to("[data-anim='pulse']", {
@@ -89,6 +123,15 @@ export default function LandingPage() {
         repeat: -1,
         yoyo: true,
         duration: 1.4,
+        ease: "sine.inOut",
+      });
+
+      gsap.to("[data-anim='video-glow']", {
+        opacity: 0.75,
+        scale: 1.1,
+        repeat: -1,
+        yoyo: true,
+        duration: 2.2,
         ease: "sine.inOut",
       });
 
@@ -103,6 +146,23 @@ export default function LandingPage() {
             start: "top 82%",
           },
         });
+      });
+
+      gsap.utils.toArray<HTMLElement>("[data-anim='media-parallax']").forEach((item) => {
+        gsap.fromTo(
+          item,
+          { yPercent: -6 },
+          {
+            yPercent: 6,
+            ease: "none",
+            scrollTrigger: {
+              trigger: item,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 0.65,
+            },
+          }
+        );
       });
     }, rootRef);
 
@@ -134,32 +194,50 @@ export default function LandingPage() {
             teamflow workspace for focused teams
           </p>
 
-          <div className={styles.wordStack}>
-            <div className={styles.clip}>
-              <h1 className={styles.word} data-anim="hero-line">
-                stay
-              </h1>
+          <div className={styles.heroTop}>
+            <div className={styles.wordStack}>
+              <div className={styles.clip}>
+                <h1 className={styles.word} data-anim="hero-line">
+                  stay
+                </h1>
+              </div>
+              <div className={styles.clip}>
+                <h1 className={styles.word} data-anim="hero-line">
+                  home
+                </h1>
+              </div>
+              <div className={styles.clip}>
+                <h1 className={styles.word} data-anim="hero-line">
+                  and
+                </h1>
+              </div>
+              <div className={styles.clip}>
+                <h1 className={styles.word} data-anim="hero-line">
+                  work
+                </h1>
+              </div>
+              <div className={styles.clip}>
+                <h1 className={styles.hourly} data-anim="hero-line">
+                  hourly
+                </h1>
+              </div>
             </div>
-            <div className={styles.clip}>
-              <h1 className={styles.word} data-anim="hero-line">
-                home
-              </h1>
-            </div>
-            <div className={styles.clip}>
-              <h1 className={styles.word} data-anim="hero-line">
-                and
-              </h1>
-            </div>
-            <div className={styles.clip}>
-              <h1 className={styles.word} data-anim="hero-line">
-                work
-              </h1>
-            </div>
-            <div className={styles.clip}>
-              <h1 className={styles.hourly} data-anim="hero-line">
-                hourly
-              </h1>
-            </div>
+
+            <article className={styles.heroVideoCard} data-anim="hero-video">
+              <video
+                className={styles.heroVideo}
+                src="/landing/hero-loop.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="metadata"
+              />
+              <div className={styles.heroVideoOverlay} />
+              <span className={styles.videoGlow} data-anim="video-glow" />
+              <p className={styles.heroVideoTag}>live motion</p>
+              <p className={styles.heroVideoText}>organize work with clarity and momentum.</p>
+            </article>
           </div>
 
           <p className={styles.copy} data-anim="hero-meta">
@@ -172,6 +250,24 @@ export default function LandingPage() {
               <article key={item} className={styles.metricCard} data-anim="phone-card">
                 <p className={styles.metricValue}>{item}</p>
                 <p className={styles.metricMeta}>live team status</p>
+              </article>
+            ))}
+          </div>
+
+          <div className={styles.heroMedia}>
+            {gallery.map((card) => (
+              <article key={card.src} className={styles.mediaCard} data-anim="media-card">
+                <div className={styles.mediaImageWrap}>
+                  <Image
+                    src={card.src}
+                    alt={card.alt}
+                    fill
+                    className={styles.mediaImage}
+                    data-anim="media-parallax"
+                  />
+                </div>
+                <div className={styles.mediaGradient} />
+                <p className={styles.mediaTag}>{card.tag}</p>
               </article>
             ))}
           </div>
@@ -196,6 +292,26 @@ export default function LandingPage() {
                 <p className={styles.stepText}>{step.text}</p>
               </article>
             ))}
+          </div>
+        </section>
+
+        <section className={styles.visualBreak} data-anim="section">
+          <div className={styles.visualImage}>
+            <Image
+              src="/auth/login-bg.jpg"
+              alt="Desk setup with keyboard and monitor"
+              fill
+              className={styles.mediaImage}
+              data-anim="media-parallax"
+            />
+          </div>
+          <div className={styles.visualCopy}>
+            <p className={styles.visualKicker}>beautifully simple workflow</p>
+            <h3 className={styles.visualTitle}>one command center for your team</h3>
+            <p className={styles.visualText}>
+              Keep tasks, members, and permissions aligned in one place with a layout that
+              stays clear as your team grows.
+            </p>
           </div>
         </section>
 

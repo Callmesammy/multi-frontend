@@ -197,17 +197,17 @@ export default function LoginForm() {
 
           <div className="w-full max-w-md">
             <header
-              className="mb-6 flex items-center justify-between border-b border-[#f3ebd729] pb-3"
+              className="mb-6 flex flex-wrap items-center justify-between gap-2 border-b border-[#f3ebd729] pb-3"
               data-auth="topbar"
             >
               <Link
                 href="/"
-                className="lowercase text-4xl leading-none text-[#f10e37]"
+                className="lowercase text-3xl leading-none text-[#f10e37] sm:text-4xl"
                 style={{ fontFamily: "var(--font-display)" }}
               >
                 hourly
               </Link>
-              <nav className="flex items-center gap-2 text-sm font-bold">
+              <nav className="ml-auto flex items-center gap-2 text-xs font-bold sm:text-sm">
                 <Link className="border border-[#f3ebd75a] px-3 py-1 text-[#f3ebd7]" href="/login">
                   Login
                 </Link>
@@ -230,6 +230,20 @@ export default function LoginForm() {
               <p className="mt-1 text-sm text-[#b8afa0]" data-auth="subhead">
                 Sign in to continue to your workspace.
               </p>
+              <div className="mt-3 inline-flex items-center gap-2" data-auth="field">
+                <Link
+                  href="/login"
+                  className="rounded-md border border-[#f3ebd75a] px-3 py-1.5 text-xs font-bold uppercase tracking-[0.12em] text-[#f3ebd7]"
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/register"
+                  className="rounded-md bg-[#f3ebd7] px-3 py-1.5 text-xs font-bold uppercase tracking-[0.12em] text-[#0f0f0f]"
+                >
+                  Sign up
+                </Link>
+              </div>
 
               <form className="mt-6 space-y-4" onSubmit={handleSubmit(onSubmit)} noValidate>
                 <div className="space-y-1" data-auth="field">
