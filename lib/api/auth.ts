@@ -47,7 +47,7 @@ function mapAuthResponse(payload: BackendAuthResponse): AuthResponse {
 
 export async function login(payload: LoginRequest): Promise<AuthResponse> {
   const response = await client.post<ApiResponse<BackendAuthResponse>>(
-    "/api/Auth/login",
+    "/api/auth/login",
     null,
     {
       params: {
@@ -71,11 +71,13 @@ export async function registerOrganization(
   };
 
   const registerEndpoints = [
+    "/api/auth/register-organization",
     "/api/Auth/register-organization",
     "/api/auth/register",
     "/api/organizations",
   ];
   let lastError: unknown;
+  const notFoundEndpoints: string[] = [];
 
   for (const endpoint of registerEndpoints) {
     try {
@@ -91,7 +93,15 @@ export async function registerOrganization(
       if (!axios.isAxiosError(error) || error.response?.status !== 404) {
         throw error;
       }
+
+      notFoundEndpoints.push(endpoint);
     }
+  }
+
+  if (notFoundEndpoints.length === registerEndpoints.length) {
+    throw new Error(
+      `Registration endpoint returned 404 for all known routes (${registerEndpoints.join(", ")}). Check BACKEND_API_URL and backend route mapping.`,
+    );
   }
 
   throw lastError ?? new Error("Registration endpoint not found.");
