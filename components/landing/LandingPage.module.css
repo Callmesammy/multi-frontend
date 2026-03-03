@@ -1,0 +1,291 @@
+.page {
+  --ink: #f3ebd7;
+  --paper: #090909;
+  --accent: #f10e37;
+  --muted: #b8afa0;
+  position: relative;
+  min-height: 100vh;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 15% 8%, rgb(235 13 64 / 22%), transparent 26%),
+    radial-gradient(circle at 86% 18%, rgb(243 235 215 / 12%), transparent 28%),
+    var(--paper);
+  font-family: var(--font-body), "Segoe UI", sans-serif;
+  overflow-x: clip;
+}
+
+.noise {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.22;
+  background-image: linear-gradient(
+      rgb(255 255 255 / 8%) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgb(255 255 255 / 8%) 1px, transparent 1px);
+  background-size: 42px 42px;
+  mask-image: radial-gradient(circle at center, black 25%, transparent 82%);
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.2rem clamp(1rem, 3vw, 3rem);
+  backdrop-filter: blur(8px);
+  background: rgb(9 9 9 / 74%);
+  border-bottom: 1px solid rgb(243 235 215 / 18%);
+}
+
+.brand {
+  margin: 0;
+  text-transform: lowercase;
+  font-family: var(--font-display), Impact, sans-serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 0.85;
+  letter-spacing: 0.01em;
+  color: var(--accent);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.loginBtn,
+.signupBtn,
+.ctaBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.loginBtn {
+  color: var(--ink);
+  border: 1px solid rgb(243 235 215 / 34%);
+  padding: 0.55rem 1rem;
+}
+
+.loginBtn:hover {
+  transform: translateY(-2px);
+  border-color: rgb(243 235 215 / 75%);
+}
+
+.signupBtn {
+  background: var(--ink);
+  color: #101010;
+  padding: 0.58rem 1rem;
+}
+
+.signupBtn:hover {
+  transform: translateY(-2px);
+  background: white;
+}
+
+.main {
+  width: min(1080px, 92vw);
+  margin: 0 auto;
+  padding-bottom: 4rem;
+}
+
+.hero {
+  padding-top: clamp(2rem, 4vw, 4rem);
+}
+
+.kicker {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.wordStack {
+  margin-top: 1rem;
+}
+
+.clip {
+  overflow: hidden;
+}
+
+.word,
+.hourly {
+  margin: 0;
+  text-transform: lowercase;
+  font-family: var(--font-display), Impact, sans-serif;
+  font-size: clamp(4rem, 20vw, 15rem);
+  line-height: 0.78;
+  letter-spacing: 0.01em;
+}
+
+.word {
+  color: var(--ink);
+}
+
+.hourly {
+  color: var(--accent);
+}
+
+.copy {
+  width: min(54ch, 95%);
+  margin: 1.3rem 0 0;
+  color: var(--muted);
+  font-size: clamp(0.95rem, 1.6vw, 1.12rem);
+  line-height: 1.55;
+}
+
+.metricRow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+  margin-top: 1.6rem;
+}
+
+.metricCard {
+  border: 1px solid rgb(243 235 215 / 22%);
+  background: linear-gradient(
+    145deg,
+    rgb(243 235 215 / 10%),
+    rgb(243 235 215 / 2%)
+  );
+  padding: 1rem;
+}
+
+.metricValue {
+  margin: 0;
+  font-size: clamp(1.2rem, 2.4vw, 1.6rem);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+.metricMeta {
+  margin: 0.4rem 0 0;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.65rem;
+  color: var(--muted);
+}
+
+.markSection {
+  margin-top: clamp(3rem, 7vw, 8rem);
+  border-top: 1px solid rgb(243 235 215 / 24%);
+  border-bottom: 1px solid rgb(243 235 215 / 24%);
+}
+
+.mark {
+  margin: 0;
+  font-family: var(--font-display), Impact, sans-serif;
+  font-size: clamp(7rem, 31vw, 17rem);
+  line-height: 0.8;
+  letter-spacing: 0.015em;
+}
+
+.markAccent {
+  color: var(--accent);
+}
+
+.howTo {
+  margin-top: clamp(2.4rem, 7vw, 7rem);
+}
+
+.howHeading {
+  margin: 0;
+  text-transform: lowercase;
+  color: var(--accent);
+  font-family: var(--font-display), Impact, sans-serif;
+  font-size: clamp(3rem, 13vw, 8rem);
+  line-height: 0.85;
+  letter-spacing: 0.01em;
+}
+
+.stepsGrid {
+  margin-top: 1.4rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.stepCard {
+  min-height: 190px;
+  padding: 1rem;
+  border-top: 5px solid var(--accent);
+  border-left: 1px solid rgb(243 235 215 / 20%);
+  border-right: 1px solid rgb(243 235 215 / 20%);
+  border-bottom: 1px solid rgb(243 235 215 / 20%);
+  background: rgb(7 7 7 / 90%);
+}
+
+.stepNumber {
+  margin: 0;
+  color: var(--accent);
+  font-size: clamp(2.8rem, 5vw, 3.4rem);
+  font-family: var(--font-display), Impact, sans-serif;
+  line-height: 0.85;
+}
+
+.stepTitle {
+  margin: 0.45rem 0 0;
+  font-size: 1.2rem;
+  text-transform: lowercase;
+}
+
+.stepText {
+  margin: 0.55rem 0 0;
+  color: var(--muted);
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+.ctaSection {
+  margin-top: clamp(2.8rem, 7vw, 6rem);
+  padding: 2rem 0 2.6rem;
+  border-top: 1px solid rgb(243 235 215 / 24%);
+}
+
+.freeHeadline {
+  margin: 0;
+  text-transform: lowercase;
+  font-family: var(--font-display), Impact, sans-serif;
+  font-size: clamp(3rem, 12vw, 8rem);
+  line-height: 0.86;
+}
+
+.freeCopy {
+  margin: 0.85rem 0 0;
+  color: var(--muted);
+}
+
+.ctaBtn {
+  margin-top: 1.2rem;
+  width: fit-content;
+  padding: 0.72rem 1.1rem;
+  background: var(--accent);
+  color: white;
+}
+
+.ctaBtn:hover {
+  transform: translateY(-2px);
+  background: #ff2f54;
+}
+
+@media (max-width: 900px) {
+  .metricRow,
+  .stepsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .stepCard {
+    min-height: auto;
+  }
+}
