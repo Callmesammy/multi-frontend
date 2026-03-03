@@ -19,6 +19,13 @@ export interface InviteMemberResponse {
   message?: string;
 }
 
+export interface PendingInvite {
+  token: string;
+  organization?: string;
+  createdAt?: string;
+  expiresAt?: string;
+}
+
 interface BackendAuthResponse {
   userId: string;
   email: string;
@@ -29,6 +36,8 @@ interface BackendAuthResponse {
 }
 
 interface BackendInviteResponse {
+  token?: string;
+  expiresAt?: string;
   message?: string;
 }
 
@@ -94,8 +103,7 @@ export async function getOrganizationMembers(orgId: string): Promise<User[]> {
     }
   }
 
-  // Some backend builds do not expose a members listing endpoint yet.
-  // Return an empty list so the Members page can still render and invites can work.
+  // Keep members screen usable when endpoint rollout lags behind frontend deploy.
   return [];
 }
 
@@ -103,13 +111,30 @@ export async function inviteMember(
   orgId: string,
   payload: InviteMemberRequest,
 ): Promise<InviteMemberResponse> {
-  const response = await client.post<ApiResponse<BackendInviteResponse>>(
+  const endpoints = [
+    `/api/invites/organizations/${orgId}`,
     `/api/Invite/organizations/${orgId}`,
-    payload,
-  );
+  ];
 
-  const data = unwrapApiResponse(response.data);
-  return { message: data.message };
+  let lastError: unknown;
+  for (const endpoint of endpoints) {
+    try {
+      const response = await client.post<ApiResponse<BackendInviteResponse>>(
+        endpoint,
+        payload,
+      );
+
+      const data = unwrapApiResponse(response.data);
+      return { message: data.message ?? response.data.message ?? undefined };
+    } catch (error: unknown) {
+      lastError = error;
+      if (!axios.isAxiosError(error) || error.response?.status !== 404) {
+        throw error;
+      }
+    }
+  }
+
+  throw lastError ?? new Error("Invite endpoint not found.");
 }
 
 export async function acceptInvite(payload: AcceptInviteRequest): Promise<AuthResponse> {
@@ -121,9 +146,40 @@ export async function acceptInvite(payload: AcceptInviteRequest): Promise<AuthRe
     lastName: nameParts.lastName,
   };
 
-  const response = await client.post<ApiResponse<BackendAuthResponse>>(
-    "/api/Invite/accept",
-    backendPayload,
-  );
-  return mapAuthResponse(unwrapApiResponse(response.data));
+  const endpoints = ["/api/invites/accept", "/api/Invite/accept"];
+  let lastError: unknown;
+
+  for (const endpoint of endpoints) {
+    try {
+      const response = await client.post<ApiResponse<BackendAuthResponse>>(
+        endpoint,
+        backendPayload,
+      );
+      return mapAuthResponse(unwrapApiResponse(response.data));
+    } catch (error: unknown) {
+      lastError = error;
+      if (!axios.isAxiosError(error) || error.response?.status !== 404) {
+        throw error;
+      }
+    }
+  }
+
+  throw lastError ?? new Error("Accept invite endpoint not found.");
+}
+
+export async function getPendingInvites(): Promise<PendingInvite[]> {
+  const endpoints = ["/api/invites/pending", "/api/Invite/pending"];
+
+  for (const endpoint of endpoints) {
+    try {
+      const response = await client.get<ApiResponse<PendingInvite[]>>(endpoint);
+      return unwrapApiResponse(response.data);
+    } catch (error: unknown) {
+      if (!axios.isAxiosError(error) || error.response?.status !== 404) {
+        throw error;
+      }
+    }
+  }
+
+  return [];
 }

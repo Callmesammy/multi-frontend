@@ -20,6 +20,8 @@ interface BackendAuthResponse {
 
 interface BackendRegisterOrganizationRequest {
   organizationName: string;
+  email: string;
+  password: string;
   adminEmail: string;
   adminPassword: string;
 }
@@ -46,19 +48,55 @@ function mapAuthResponse(payload: BackendAuthResponse): AuthResponse {
 }
 
 export async function login(payload: LoginRequest): Promise<AuthResponse> {
-  const response = await client.post<ApiResponse<BackendAuthResponse>>(
-    "/api/auth/login",
-    null,
-    {
-      params: {
-        email: payload.email,
-        password: payload.password,
-        organizationId: payload.organizationId,
-      },
-    },
-  );
+  const endpoints = ["/api/auth/login", "/api/Auth/login"];
+  let lastError: unknown;
 
-  return mapAuthResponse(unwrapApiResponse(response.data));
+  for (const endpoint of endpoints) {
+    try {
+      const response = await client.post<ApiResponse<BackendAuthResponse>>(
+        endpoint,
+        {
+          email: payload.email,
+          password: payload.password,
+          organizationId: payload.organizationId,
+        },
+      );
+      return mapAuthResponse(unwrapApiResponse(response.data));
+    } catch (error: unknown) {
+      lastError = error;
+
+      const isRetryableBodyError =
+        axios.isAxiosError(error) &&
+        [400, 404, 405, 415].includes(error.response?.status ?? 0);
+
+      if (!isRetryableBodyError) {
+        throw error;
+      }
+    }
+
+    try {
+      const response = await client.post<ApiResponse<BackendAuthResponse>>(
+        endpoint,
+        null,
+        {
+          params: {
+            email: payload.email,
+            password: payload.password,
+            organizationId: payload.organizationId,
+          },
+        },
+      );
+      return mapAuthResponse(unwrapApiResponse(response.data));
+    } catch (error: unknown) {
+      lastError = error;
+
+      if (!axios.isAxiosError(error) || error.response?.status !== 404) {
+        throw error;
+      }
+    }
+  }
+
+  throw lastError ?? new Error("Login endpoint not found.");
 }
 
 export async function registerOrganization(
@@ -66,6 +104,8 @@ export async function registerOrganization(
 ): Promise<AuthResponse> {
   const backendPayload: BackendRegisterOrganizationRequest = {
     organizationName: payload.organizationName,
+    email: payload.email,
+    password: payload.password,
     adminEmail: payload.email,
     adminPassword: payload.password,
   };

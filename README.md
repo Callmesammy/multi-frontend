@@ -1,59 +1,138 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TeamFlow Frontend
 
-## Getting Started
+Multi-tenant task management frontend built with Next.js App Router.
 
-First, run the development server:
+## Overview
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+This app provides:
+
+- Organization onboarding (register + login)
+- Dashboard and task management
+- Members and invite flows
+- Session-aware route protection
+- API proxying through Next.js rewrites
+
+The frontend calls relative `/api/*` paths and forwards them to your backend origin from `BACKEND_API_URL`.
+
+## Tech Stack
+
+- Next.js 16 (App Router)
+- React 19
+- TypeScript
+- Tailwind CSS 4
+- TanStack Query
+- Zustand
+- Axios
+- Zod + React Hook Form
+
+## Project Structure
+
+```text
+app/                    Route segments (auth, dashboard, invite, landing)
+components/             UI and feature components
+lib/api/                API clients (auth, tasks, members, health)
+lib/hooks/              React Query hooks
+lib/stores/             Zustand stores
+lib/utils/              Shared helpers (error handling, etc.)
+types/                  Domain types
+next.config.ts          Backend rewrite proxy config
+middleware.ts           Auth route guard middleware
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Quick Start
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 1. Install dependencies
 
-## Backend API Configuration
+```bash
+npm install
+```
 
-This app calls backend endpoints under `/api/*` and relies on a Next.js rewrite proxy.
+### 2. Configure environment
 
-Create `.env.local` with:
+Create `.env.local` in project root:
 
 ```env
 BACKEND_API_URL=http://localhost:5286
 ```
 
-For Vercel, set `BACKEND_API_URL` in Project Settings -> Environment Variables, then redeploy.
-
-Use a full backend URL in production, for example:
+For Azure production:
 
 ```env
-BACKEND_API_URL=https://your-backend-domain.com
+BACKEND_API_URL=https://teamflow-gpasggaxb5cxhmc5.polandcentral-01.azurewebsites.net
 ```
 
-If your backend CORS uses `WithOrigins(...)`, include protocol and exact frontend origin:
-- `https://teamflow-roan-rho.vercel.app` (correct)
-- `teamflow-roan-rho.vercel.app` (won't match)
-- `localhost://3000` (invalid order; should be `http://localhost:3000`)
+Notes:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `BACKEND_API_URL` may include protocol and host only, or host plus `/api`; config normalizes both.
+- In production, missing `BACKEND_API_URL` fails build/start by design.
 
-## Learn More
+### 3. Run locally
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Open `http://localhost:3000`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Scripts
 
-## Deploy on Vercel
+- `npm run dev` - start dev server
+- `npm run build` - production build
+- `npm run start` - run production build
+- `npm run lint` - run ESLint
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## API Proxy Model
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The app uses same-origin browser requests and rewrites:
+
+- Frontend requests: `/api/...`
+- Next.js rewrites to: `${BACKEND_API_URL}/api/...`
+
+This avoids exposing a public client-side API base URL and simplifies auth + CORS handling.
+
+## Auth and Route Protection
+
+- Token is stored in Zustand + mirrored to cookie `teamflow-token`.
+- `middleware.ts` protects:
+  - `/dashboard`
+  - `/tasks`
+  - `/members`
+  - `/settings`
+- Public invite route: `/invite/[token]`
+
+## Deployment (Vercel)
+
+1. Add `BACKEND_API_URL` in Project Settings -> Environment Variables.
+2. Set it for `Production` (and `Preview` if needed).
+3. Redeploy.
+
+Example:
+
+```env
+BACKEND_API_URL=https://teamflow-gpasggaxb5cxhmc5.polandcentral-01.azurewebsites.net
+```
+
+## Troubleshooting
+
+### "An unexpected error occurred"
+
+Usually backend-side. Check backend health first:
+
+- `GET /api/Health` should be healthy.
+- If it returns `503`, fix backend dependencies (DB/Redis/network) before frontend changes.
+
+### Network/CORS errors
+
+If backend uses strict CORS origins, include exact protocol + domain:
+
+- `https://your-frontend.vercel.app` (correct)
+- `your-frontend.vercel.app` (incorrect)
+
+### Build fails when offline fetching fonts
+
+This project uses `next/font/google`. In restricted networks, `next build` can fail if Google Fonts cannot be fetched.
+
+## Notes
+
+- `middleware.ts` works on Next.js 16 but the framework currently warns that `proxy` is the newer convention.
+- API integrations include compatibility fallbacks for route casing/variant differences across backend deployments.
