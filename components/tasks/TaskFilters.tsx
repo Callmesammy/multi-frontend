@@ -63,7 +63,7 @@ export default function TaskFilters({ value, onChange, onClear }: TaskFiltersPro
                 page: 1,
               })
             }
-            className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2.5 text-sm outline-none ring-0 transition focus:border-zinc-500"
+            className="w-full rounded-lg border border-zinc-700 bg-zinc-900/70 px-3 py-2.5 text-sm text-zinc-100 outline-none ring-0 transition focus:border-zinc-500"
           >
             <option value="">All</option>
             {statusOptions.map((option) => (
@@ -90,7 +90,7 @@ export default function TaskFilters({ value, onChange, onClear }: TaskFiltersPro
                 page: 1,
               })
             }
-            className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2.5 text-sm outline-none ring-0 transition focus:border-zinc-500"
+            className="w-full rounded-lg border border-zinc-700 bg-zinc-900/70 px-3 py-2.5 text-sm text-zinc-100 outline-none ring-0 transition focus:border-zinc-500"
           >
             <option value="">All</option>
             {priorityOptions.map((option) => (
@@ -117,7 +117,7 @@ export default function TaskFilters({ value, onChange, onClear }: TaskFiltersPro
                 page: 1,
               })
             }
-            className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2.5 text-sm outline-none ring-0 transition focus:border-zinc-500"
+            className="w-full rounded-lg border border-zinc-700 bg-zinc-900/70 px-3 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-400 outline-none ring-0 transition focus:border-zinc-500"
           />
         </div>
 
@@ -135,7 +135,7 @@ export default function TaskFilters({ value, onChange, onClear }: TaskFiltersPro
                 page: 1,
               })
             }
-            className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2.5 text-sm outline-none ring-0 transition focus:border-zinc-500"
+            className="w-full rounded-lg border border-zinc-700 bg-zinc-900/70 px-3 py-2.5 text-sm text-zinc-100 outline-none ring-0 transition focus:border-zinc-500"
           >
             <option value={10}>10</option>
             <option value={20}>20</option>

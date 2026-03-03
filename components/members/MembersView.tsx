@@ -162,7 +162,7 @@ export default function MembersView() {
                 placeholder="Name or email"
                 value={searchQuery}
                 onChange={(event) => setSearchQuery(event.target.value)}
-                className="w-full rounded-xl border border-zinc-300 py-2.5 pl-9 pr-3 text-sm outline-none transition focus:border-zinc-500"
+                className="w-full rounded-xl border border-zinc-700 bg-zinc-900/70 py-2.5 pl-9 pr-3 text-sm text-zinc-100 placeholder:text-zinc-400 outline-none transition focus:border-zinc-500"
               />
             </span>
           </label>
@@ -174,7 +174,7 @@ export default function MembersView() {
             <select
               value={roleFilter}
               onChange={(event) => setRoleFilter(event.target.value as RoleFilter)}
-              className="w-full rounded-xl border border-zinc-300 px-3 py-2.5 text-sm outline-none transition focus:border-zinc-500"
+              className="w-full rounded-xl border border-zinc-700 bg-zinc-900/70 px-3 py-2.5 text-sm text-zinc-100 outline-none transition focus:border-zinc-500"
             >
               <option value="All">All roles</option>
               <option value="Admin">Admin</option>

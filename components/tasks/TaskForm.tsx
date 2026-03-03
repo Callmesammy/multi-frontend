@@ -229,7 +229,7 @@ export default function TaskForm({
             </div>
             <input
               id="taskTitle"
-              className="w-full rounded-xl border border-zinc-300 px-3.5 py-2.5 text-sm outline-none transition focus:border-zinc-500"
+              className="w-full rounded-xl border border-zinc-700 bg-zinc-900/70 px-3.5 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-400 outline-none transition focus:border-zinc-500"
               placeholder="Write a clear, specific task title"
               {...register("title")}
             />
@@ -246,7 +246,7 @@ export default function TaskForm({
             <textarea
               id="taskDescription"
               rows={5}
-              className="w-full rounded-xl border border-zinc-300 px-3.5 py-2.5 text-sm outline-none transition focus:border-zinc-500"
+              className="w-full rounded-xl border border-zinc-700 bg-zinc-900/70 px-3.5 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-400 outline-none transition focus:border-zinc-500"
               placeholder="Add context, dependencies, and acceptance criteria"
               {...register("description")}
             />
@@ -338,7 +338,7 @@ export default function TaskForm({
             </label>
             <input
               id="taskAssignee"
-              className="w-full rounded-xl border border-zinc-300 px-3.5 py-2.5 text-sm outline-none transition focus:border-zinc-500"
+              className="w-full rounded-xl border border-zinc-700 bg-zinc-900/70 px-3.5 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-400 outline-none transition focus:border-zinc-500"
               placeholder="Optional assignee id"
               {...register("assigneeId")}
             />

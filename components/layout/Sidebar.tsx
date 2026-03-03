@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { CheckSquare, LayoutDashboard, LogOut, Settings, Users } from "lucide-react";
@@ -31,14 +32,27 @@ export default function Sidebar({ compact = false, onNavigate }: SidebarProps) {
   };
 
   return (
-    <div className="flex h-full flex-col border-r border-zinc-200 bg-white">
-      <div className="border-b border-zinc-200 px-4 py-5">
-        <p className="truncate text-xs uppercase tracking-[0.2em] text-zinc-500">
-          TeamFlow
-        </p>
-        <p className="mt-1 truncate text-sm font-semibold text-zinc-900">
-          {org?.name ?? "Organization"}
-        </p>
+    <div className="flex h-full flex-col border-r border-zinc-800 bg-zinc-950 text-zinc-100">
+      <div className="border-b border-zinc-800 px-4 py-5">
+        <div className={compact ? "flex justify-center" : "flex items-center gap-2"}>
+          <Image
+            src="/brand/teamflow-mark.svg"
+            alt="TeamFlow"
+            width={24}
+            height={24}
+            className="h-6 w-6 shrink-0"
+          />
+          {compact ? null : (
+            <p className="truncate text-xs font-semibold uppercase tracking-[0.2em] text-zinc-300">
+              TeamFlow
+            </p>
+          )}
+        </div>
+        {compact ? null : (
+          <p className="mt-2 truncate text-sm font-semibold text-zinc-100">
+            {org?.name ?? "Organization"}
+          </p>
+        )}
       </div>
 
       <nav className="flex-1 space-y-1 p-3">
@@ -55,8 +69,8 @@ export default function Sidebar({ compact = false, onNavigate }: SidebarProps) {
               className={[
                 "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
                 isActive
-                  ? "bg-zinc-900 text-white"
-                  : "text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900",
+                  ? "bg-gradient-to-r from-teal-500/40 to-cyan-500/30 text-white"
+                  : "text-zinc-300 hover:bg-zinc-900 hover:text-zinc-100",
               ].join(" ")}
               aria-current={isActive ? "page" : undefined}
             >
@@ -67,16 +81,16 @@ export default function Sidebar({ compact = false, onNavigate }: SidebarProps) {
         })}
       </nav>
 
-      <div className="border-t border-zinc-200 p-3">
+      <div className="border-t border-zinc-800 p-3">
         {compact ? null : (
-          <p className="mb-3 truncate text-xs text-zinc-500">
+          <p className="mb-3 truncate text-xs text-zinc-400">
             Signed in as {user?.name ?? "User"}
           </p>
         )}
         <button
           type="button"
           onClick={handleLogout}
-          className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900"
+          className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-zinc-300 hover:bg-zinc-900 hover:text-zinc-100"
         >
           <LogOut className="h-4 w-4 shrink-0" />
           {compact ? null : <span>Logout</span>}

@@ -85,7 +85,7 @@ export default function InviteModal({ onSubmit, onClose }: InviteModalProps) {
                 id="inviteEmail"
                 type="email"
                 placeholder="name@company.com"
-                className="w-full rounded-xl border border-zinc-300 py-2.5 pl-9 pr-3 text-sm outline-none transition focus:border-zinc-500"
+                className="w-full rounded-xl border border-zinc-700 bg-zinc-900/70 py-2.5 pl-9 pr-3 text-sm text-zinc-100 placeholder:text-zinc-400 outline-none transition focus:border-zinc-500"
                 {...register("email")}
               />
             </span>
