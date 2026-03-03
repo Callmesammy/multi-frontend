@@ -230,21 +230,7 @@ export default function LoginForm() {
               <p className="mt-1 text-sm text-[#b8afa0]" data-auth="subhead">
                 Sign in to continue to your workspace.
               </p>
-              <div className="mt-3 inline-flex items-center gap-2" data-auth="field">
-                <Link
-                  href="/login"
-                  className="rounded-md border border-[#f3ebd75a] px-3 py-1.5 text-xs font-bold uppercase tracking-[0.12em] text-[#f3ebd7]"
-                >
-                  Login
-                </Link>
-                <Link
-                  href="/register"
-                  className="rounded-md bg-[#f3ebd7] px-3 py-1.5 text-xs font-bold uppercase tracking-[0.12em] text-[#0f0f0f]"
-                >
-                  Sign up
-                </Link>
-              </div>
-
+    
               <form className="mt-6 space-y-4" onSubmit={handleSubmit(onSubmit)} noValidate>
                 <div className="space-y-1" data-auth="field">
                   <label className="text-sm font-semibold text-[#f3ebd7]" htmlFor="email">
@@ -303,7 +289,7 @@ export default function LoginForm() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full rounded-md bg-[#f10e37] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#ff3159] disabled:cursor-not-allowed disabled:opacity-50"
+                  className="w-full rounded-md bg-[#f10e37] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#ff3159] disabled:cursor-not-allowed disabled:opacity-50"
                   data-auth="submit"
                 >
                   {isSubmitting ? "Signing in..." : "Sign in"}

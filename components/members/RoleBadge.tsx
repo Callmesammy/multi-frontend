@@ -7,12 +7,12 @@ interface RoleBadgeProps {
 export default function RoleBadge({ role }: RoleBadgeProps) {
   const className =
     role === "Admin"
-      ? "bg-blue-100 text-blue-800 border-blue-200"
-      : "bg-zinc-100 text-zinc-700 border-zinc-200";
+      ? "bg-amber-100 text-amber-800 border-amber-300"
+      : "bg-cyan-100 text-cyan-800 border-cyan-300";
 
   return (
     <span
-      className={`inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-medium ${className}`}
+      className={`inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-semibold ${className}`}
     >
       {role}
     </span>

@@ -64,9 +64,9 @@ export default function LandingPage() {
 
       intro
         .from("[data-anim='topbar']", {
-          y: -36,
-          opacity: 0,
-          duration: 0.8,
+          y: -18,
+          duration: 0.55,
+          clearProps: "transform",
         })
         .from(
           "[data-anim='hero-line']",

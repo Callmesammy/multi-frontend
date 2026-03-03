@@ -112,9 +112,9 @@ export default function RegisterOrgForm() {
         .from(
           "[data-signup='topbar']",
           {
-            y: -26,
-            opacity: 0,
-            duration: 0.68,
+            y: -18,
+            duration: 0.55,
+            clearProps: "transform",
           },
           "-=0.6"
         )
@@ -339,7 +339,7 @@ export default function RegisterOrgForm() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full rounded-md bg-[#f10e37] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#ff3159] disabled:cursor-not-allowed disabled:opacity-50"
+                  className="w-full rounded-md bg-[#f10e37] px-4 py-2.5 text-sm font-semibold text-white  hover:bg-[#ff3159] disabled:cursor-not-allowed disabled:opacity-50"
                   data-signup="submit"
                 >
                   {isSubmitting ? "Creating account..." : "Create Organization"}
