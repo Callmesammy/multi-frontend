@@ -165,7 +165,7 @@ export default function LoginForm() {
           data-auth="image-pane"
         >
           <Image
-            src="/auth/login-bg.avif"
+            src="/auth/login-bg.jpg"
             alt="Abstract dark background"
             fill
             priority

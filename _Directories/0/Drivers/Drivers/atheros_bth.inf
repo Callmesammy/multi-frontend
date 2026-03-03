@@ -1,0 +1,137 @@
+; Copyright (c) 2013 Qualcomm Technologies, Inc.
+; All Rights Reserved.
+; Qualcomm Technologies Proprietary and Confidential.
+
+
+[Version]
+Signature          = "$Windows NT$"
+Provider           = %ProviderName%
+Class              = Bluetooth
+CLASSGUID          = {e0cbf06c-cd8b-4647-bb8a-263b43f0f974};
+DriverVer=11/22/2021,10.0.0.1238
+CatalogFile.NT     = btfilter.cat
+PnpLockdown        = 1
+
+[DestinationDirs]
+Btfilter.Files     = 12
+
+
+[ControlFlags]
+ExcludeFromSelect = *
+
+[SourceDisksNames]
+1 = %SourceDisk%,,1
+
+[SourceDisksFiles]
+btfilter.sys = 1,,
+AthrBT_0x00000200.dfu = 1,,
+AthrBT_0x00000300.dfu = 1,,
+AthrBT_0x00000302.dfu = 1,,
+AthrBT_TF_0x00000302.dfu = 1,,
+ramps_0x00000200_48.dfu = 1,,
+ramps_0x00000300_48.dfu = 1,,
+ramps_0x00000300_48_NFA435_10db.dfu = 1,,
+ramps_0x00000302_48.dfu = 1,,
+ramps_0x00000302_48_NFA354A_10db.dfu = 1,,
+ramps_TF_0x00000302_48.dfu = 1,,
+ramps_TF_0x00000302_48_NFA435_10dbm.dfu = 1,,
+
+AdminService.exe = 1,,
+
+[Manufacturer]
+%ManufacturerName% = QCABT,NTamd64
+
+[QCABT.NTamd64]
+%VID_0CF3&PID_E300% = QCABTUSB, USB\VID_0CF3&PID_E300
+%VID_0CF3&PID_3004% = QCABTUSB, USB\VID_0CF3&PID_3004
+%VID_0CF3&PID_E360% = QCABTUSB, USB\VID_0CF3&PID_E360
+%VID_0CF3&PID_E370% = QCABTUSB, USB\VID_0CF3&PID_E370
+%VID_0CF3&PID_E500% = QCABTUSB, USB\VID_0CF3&PID_E500
+%VID_0CF3&PID_E400% = QCABTUSB, USB\VID_0CF3&PID_E400
+%VID_0CF3&PID_E007% = QCABTUSB, USB\VID_0CF3&PID_E007
+%VID_0CF3&PID_E301% = QCABTUSB, USB\VID_0CF3&PID_E301
+%VID_0CF3&PID_E009% = QCABTUSB, USB\VID_0CF3&PID_E009
+%VID_0CF3&PID_E010% = QCABTUSB, USB\VID_0CF3&PID_E010
+%VID_0489&PID_E0A2% = QCABTUSB, USB\VID_0489&PID_E0A2
+%VID_0CF3&PID_535B% = QCABTUSB, USB\VID_0CF3&PID_535B
+
+;Generic OEM sections
+[QCABTUSB]
+include    = bth.inf
+needs      = BthUsb.NT
+CopyFiles  = BtFilter.Files
+
+[QCABTUSB.HW]
+include    = bth.inf
+needs      = BthUsb.NT.HW
+AddReg     = BtFilter.HW.AddReg
+
+[QCABTUSB.Services]
+include    = bth.inf
+needs      = BthUsb.NT.Services
+AddService = BtFilter,,BtFilterService
+AddService = AtherosSvc,0x00000800,Adminservice
+
+[BtFilterService]
+DisplayName    = "BtFilter"
+ServiceType    = 1 ; KERNEL_DRIVER
+StartType      = 3 ; DEMAND START
+ErrorControl   = 1 ; ERROR_NORMAL
+ServiceBinary  = %12%\btfilter.sys
+AddReg         = BtFilter.AddReg
+
+[Adminservice]
+DisplayName    = "AtherosSvc"
+ServiceType    = 0x10 ; SERVICE_WIN32_OWN_PROCESS
+StartType      = 2 ; SERVICE_AUTO_START
+ErrorControl   = 0 ; ERROR_NORMAL
+ServiceBinary  = %12%\AdminService.exe
+
+[BtFilter.HW.AddReg]
+HKR,,"UpperFilters",0x00010000,"BtFilter"
+HKR,,"LowerFilters",0x00010000,"BtFilter"
+HKR,,"VsMsftOpCode",0x00010001,0xFD70
+HKR,,"QCASwiftPair",0x00010001,0x1
+
+[BtFilter.AddReg]
+HKR,Parameters,FirmwareBinFolder,0x00000,"\SystemRoot\System32\drivers\"
+HKR,Parameters,BtFilterWakeUpEnable,0x00010003,0
+HKR,Parameters,BtFilterDeviceDetection,0x00010003,0
+HKR,Parameters,HciDumpSize,0x00010001,256
+HKR,Parameters,BtSnoopHciEnabled,0x00010001,0
+
+;Common sections
+[BtFilter.Files]
+btfilter.sys
+AthrBT_0x00000200.dfu
+AthrBT_0x00000300.dfu
+AthrBT_0x00000302.dfu
+AthrBT_TF_0x00000302.dfu
+ramps_0x00000200_48.dfu
+ramps_0x00000300_48.dfu
+ramps_0x00000300_48_NFA435_10db.dfu
+ramps_0x00000302_48.dfu
+ramps_0x00000302_48_NFA354A_10db.dfu
+ramps_TF_0x00000302_48.dfu
+ramps_TF_0x00000302_48_NFA435_10dbm.dfu
+
+AdminService.exe
+
+
+[Strings]
+ProviderName       = "Qualcomm"
+ManufacturerName   = "Qualcomm"
+SourceDisk         = "Qualcomm Atheros CD"
+
+VID_0CF3&PID_E300  = "Qualcomm Atheros QCA61x4 Bluetooth"
+VID_0CF3&PID_3004  = "Qualcomm Atheros QCA61x4 Bluetooth"
+VID_0CF3&PID_E360  = "Qualcomm Atheros QCA9377 Bluetooth"
+VID_0CF3&PID_E370  = "Qualcomm Atheros QCA9377 Bluetooth"
+VID_0CF3&PID_E500  = "Qualcomm Atheros QCA9377 Bluetooth"
+VID_0CF3&PID_E400  = "Qualcomm Atheros QCA6290 Bluetooth"
+VID_0CF3&PID_E007  = "Qualcomm QCA61x4A Bluetooth"
+VID_0CF3&PID_E301  = "Qualcomm Atheros QCA61x4 Bluetooth"
+VID_0CF3&PID_E009  = "Qualcomm QCA9377 Bluetooth"
+VID_0CF3&PID_E010  = "Qualcomm QCA6174A Bluetooth"
+VID_0489&PID_E0A2  = "Qualcomm QCA61x4A Bluetooth"
+VID_0CF3&PID_535B  = "Qualcomm QCA6174A Bluetooth"
