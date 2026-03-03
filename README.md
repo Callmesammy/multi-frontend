@@ -30,6 +30,17 @@ BACKEND_API_URL=http://localhost:5286
 
 For Vercel, set `BACKEND_API_URL` in Project Settings -> Environment Variables, then redeploy.
 
+Use a full backend URL in production, for example:
+
+```env
+BACKEND_API_URL=https://your-backend-domain.com
+```
+
+If your backend CORS uses `WithOrigins(...)`, include protocol and exact frontend origin:
+- `https://teamflow-roan-rho.vercel.app` (correct)
+- `teamflow-roan-rho.vercel.app` (won't match)
+- `localhost://3000` (invalid order; should be `http://localhost:3000`)
+
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
 ## Learn More

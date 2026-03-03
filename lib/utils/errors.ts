@@ -61,7 +61,7 @@ export function handleApiError(error: unknown): string {
     }
 
     if (error.code === "ERR_NETWORK") {
-      return "Network error. Check your connection.";
+      return "Network error. Check backend URL/CORS configuration and your connection.";
     }
   }
 
