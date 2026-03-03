@@ -207,14 +207,7 @@ export default function LoginForm() {
               >
                 hourly
               </Link>
-              <nav className="ml-auto flex items-center gap-2 text-xs font-bold sm:text-sm">
-                <Link className="border border-[#f3ebd75a] px-3 py-1 text-[#f3ebd7]" href="/login">
-                  Login
-                </Link>
-                <Link className="bg-[#f3ebd7] px-3 py-1 text-[#0f0f0f]" href="/register">
-                  Sign up
-                </Link>
-              </nav>
+            
             </header>
 
             <section className="rounded-2xl border border-[#f3ebd72e] bg-[#0e0e0e]/90 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.45)] sm:p-8">
