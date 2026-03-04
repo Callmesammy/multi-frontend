@@ -5,18 +5,17 @@ interface ApiErrorPayload {
   title?: string;
   message?: string;
   Message?: string;
-  errors?: string[];
-  Errors?: string[];
+  errors?: string[] | Record<string, string>;
+  Errors?: string[] | Record<string, string>;
   [key: string]: unknown;
 }
 
-function firstStringFromObject(record: Record<string, unknown>): string | null {
-  for (const value of Object.values(record)) {
-    if (typeof value === "string" && value.trim().length > 0) {
-      return value;
-    }
+function firstErrorFromField(errors: string[] | Record<string, string>): string | null {
+  if (Array.isArray(errors)) {
+    return errors.length > 0 ? errors[0] : null;
   }
-  return null;
+  const first = Object.values(errors).find((v) => typeof v === "string" && v.trim().length > 0);
+  return first ?? null;
 }
 
 export function handleApiError(error: unknown): string {
@@ -46,18 +45,20 @@ export function handleApiError(error: unknown): string {
         return payload.Message;
       }
 
-      if (Array.isArray(payload.errors) && payload.errors.length > 0) {
-        return payload.errors[0];
+      if (payload.errors) {
+        const msg = firstErrorFromField(payload.errors as string[] | Record<string, string>);
+        if (msg) return msg;
       }
 
-      if (Array.isArray(payload.Errors) && payload.Errors.length > 0) {
-        return payload.Errors[0];
+      if (payload.Errors) {
+        const msg = firstErrorFromField(payload.Errors as string[] | Record<string, string>);
+        if (msg) return msg;
       }
 
-      const objectValue = firstStringFromObject(payload as Record<string, unknown>);
-      if (objectValue) {
-        return objectValue;
-      }
+      const objectValue = Object.values(payload).find(
+        (v) => typeof v === "string" && v.trim().length > 0,
+      ) as string | undefined;
+      if (objectValue) return objectValue;
     }
 
     if (error.code === "ERR_NETWORK") {

@@ -112,8 +112,8 @@ export async function inviteMember(
   payload: InviteMemberRequest,
 ): Promise<InviteMemberResponse> {
   const endpoints = [
-    `/api/invites/organizations/${orgId}`,
     `/api/Invite/organizations/${orgId}`,
+    `/api/invites/organizations/${orgId}`,
   ];
 
   let lastError: unknown;
@@ -146,7 +146,7 @@ export async function acceptInvite(payload: AcceptInviteRequest): Promise<AuthRe
     lastName: nameParts.lastName,
   };
 
-  const endpoints = ["/api/invites/accept", "/api/Invite/accept"];
+  const endpoints = ["/api/Invite/accept", "/api/invites/accept"];
   let lastError: unknown;
 
   for (const endpoint of endpoints) {

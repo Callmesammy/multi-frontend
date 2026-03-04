@@ -26,9 +26,9 @@ const bodyFont = Manrope({
 });
 
 const loginSchema = z.object({
-  email: z.string().email("Enter a valid email address."),
-  password: z.string().min(6, "Password must be at least 6 characters."),
-  organizationId: z.string().uuid("Enter a valid organization ID."),
+  Email: z.string().email("Enter a valid email address."),
+  Password: z.string().min(6, "Password must be at least 6 characters."),
+  OrganizationId: z.string().uuid("Enter a valid organization ID."),
 });
 
 type LoginValues = z.infer<typeof loginSchema>;
@@ -48,15 +48,15 @@ export default function LoginForm() {
     formState: { errors, isSubmitting },
   } = useForm<LoginValues>({
     defaultValues: {
-      email: "",
-      password: "",
-      organizationId: lastOrgId ?? "",
+      Email: "",
+      Password: "",
+      OrganizationId: lastOrgId ?? "",
     },
   });
 
   useEffect(() => {
     if (lastOrgId) {
-      setValue("organizationId", lastOrgId);
+      setValue("OrganizationId", lastOrgId);
     }
   }, [lastOrgId, setValue]);
 
@@ -137,7 +137,7 @@ export default function LoginForm() {
     if (!parsed.success) {
       for (const issue of parsed.error.issues) {
         const field = issue.path[0];
-        if (field === "email" || field === "password" || field === "organizationId") {
+        if (field === "Email" || field === "Password" || field === "OrganizationId") {
           setError(field, { type: "manual", message: issue.message });
         }
       }
@@ -146,7 +146,7 @@ export default function LoginForm() {
 
     try {
       const response = await login(parsed.data);
-      setAuth(response.token, response.user, response.organization);
+      setAuth(response.Token, response.User, response.Organization);
       router.push("/dashboard");
     } catch (error: unknown) {
       setApiError(handleApiError(error));
@@ -230,46 +230,46 @@ export default function LoginForm() {
                     Email
                   </label>
                   <input
-                    id="email"
-                    type="email"
-                    autoComplete="email"
+                    id="Email"
+                    type="Email"
+                    autoComplete="Email"
                     className="w-full rounded-md border border-[#f3ebd747] bg-black/30 px-3 py-2 text-sm text-[#f3ebd7] outline-none ring-0 placeholder:text-[#f3ebd771] focus:border-[#f10e37]"
                     placeholder="you@company.com"
-                    {...register("email")}
+                    {...register("Email")}
                   />
-                  {errors.email ? (
-                    <p className="text-sm text-red-400">{errors.email.message}</p>
+                  {errors.Email ? (
+                    <p className="text-sm text-red-400">{errors.Email.message}</p>
                   ) : null}
                 </div>
 
                 <div className="space-y-1" data-auth="field">
-                  <label className="text-sm font-semibold text-[#f3ebd7]" htmlFor="password">
+                  <label className="text-sm font-semibold text-[#f3ebd7]" htmlFor="Password">
                     Password
                   </label>
                   <input
-                    id="password"
-                    type="password"
+                    id="Password"
+                    type="Password"
                     autoComplete="current-password"
                     className="w-full rounded-md border border-[#f3ebd747] bg-black/30 px-3 py-2 text-sm text-[#f3ebd7] outline-none ring-0 focus:border-[#f10e37]"
-                    {...register("password")}
+                    {...register("Password")}
                   />
-                  {errors.password ? (
-                    <p className="text-sm text-red-400">{errors.password.message}</p>
+                  {errors.Password ? (
+                    <p className="text-sm text-red-400">{errors.Password.message}</p>
                   ) : null}
                 </div>
 
                 <div className="space-y-1" data-auth="field">
-                  <label className="text-sm font-semibold text-[#f3ebd7]" htmlFor="organizationId">
+                  <label className="text-sm font-semibold text-[#f3ebd7]" htmlFor="OrganizationId">
                     Organization ID
                   </label>
                   <input
-                    id="organizationId"
+                    id="OrganizationId"
                     autoComplete="off"
                     className="w-full rounded-md border border-[#f3ebd747] bg-black/30 px-3 py-2 text-sm text-[#f3ebd7] outline-none ring-0 focus:border-[#f10e37]"
-                    {...register("organizationId")}
+                    {...register("OrganizationId")}
                   />
-                  {errors.organizationId ? (
-                    <p className="text-sm text-red-400">{errors.organizationId.message}</p>
+                  {errors.OrganizationId ? (
+                    <p className="text-sm text-red-400">{errors.OrganizationId.message}</p>
                   ) : (
                     <p className="text-xs text-[#b8afa0]">
                       Use the organization ID from your registration response or admin invite.

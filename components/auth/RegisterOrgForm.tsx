@@ -27,18 +27,18 @@ const bodyFont = Manrope({
 
 const registerSchema = z
   .object({
-    organizationName: z
+    OrganizationName: z
       .string()
       .min(2, "Organization name must be at least 2 characters.")
       .max(50, "Organization name must be at most 50 characters."),
-    name: z.string().min(2, "Your name must be at least 2 characters."),
-    email: z.string().email("Enter a valid email address."),
-    password: z.string().min(8, "Password must be at least 8 characters."),
-    confirmPassword: z.string().min(8, "Confirm password is required."),
+    Name: z.string().min(2, "Your name must be at least 2 characters."),
+    Email: z.string().email("Enter a valid email address."),
+    Password: z.string().min(8, "Password must be at least 8 characters."),
+    ConfirmPassword: z.string().min(8, "Confirm password is required."),
   })
-  .refine((values) => values.password === values.confirmPassword, {
+  .refine((values) => values.Password === values.ConfirmPassword, {
     message: "Passwords do not match.",
-    path: ["confirmPassword"],
+    path: ["ConfirmPassword"],
   });
 
 type RegisterValues = z.infer<typeof registerSchema>;
@@ -56,11 +56,11 @@ export default function RegisterOrgForm() {
     formState: { errors, isSubmitting },
   } = useForm<RegisterValues>({
     defaultValues: {
-      organizationName: "",
-      name: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
+      OrganizationName: "",
+      Name: "",
+      Email: "",
+      Password: "",
+      ConfirmPassword: "",
     },
   });
 
@@ -72,11 +72,11 @@ export default function RegisterOrgForm() {
       for (const issue of parsed.error.issues) {
         const field = issue.path[0];
         if (
-          field === "organizationName" ||
-          field === "name" ||
-          field === "email" ||
-          field === "password" ||
-          field === "confirmPassword"
+          field === "OrganizationName" ||
+          field === "Name" ||
+          field === "Email" ||
+          field === "Password" ||
+          field === "ConfirmPassword"
         ) {
           setError(field, { type: "manual", message: issue.message });
         }
@@ -86,13 +86,13 @@ export default function RegisterOrgForm() {
 
     try {
       const response = await registerOrganization({
-        organizationName: parsed.data.organizationName,
-        name: parsed.data.name,
-        email: parsed.data.email,
-        password: parsed.data.password,
+        OrganizationName: parsed.data.OrganizationName,
+        Name: parsed.data.Name,
+        Email: parsed.data.Email,
+        Password: parsed.data.Password,
       });
 
-      setAuth(response.token, response.user, response.organization);
+      setAuth(response.Token, response.User, response.Organization);
       router.push("/dashboard");
     } catch (error: unknown) {
       setApiError(handleApiError(error));
@@ -261,10 +261,10 @@ export default function RegisterOrgForm() {
                   <input
                     id="organizationName"
                     className="w-full rounded-md border border-[#f3ebd747] bg-black/30 px-3 py-2 text-sm text-[#f3ebd7] outline-none ring-0 focus:border-cyan-300"
-                    {...register("organizationName")}
+                    {...register("OrganizationName")}
                   />
-                  {errors.organizationName ? (
-                    <p className="text-sm text-red-400">{errors.organizationName.message}</p>
+                  {errors.OrganizationName ? (
+                    <p className="text-sm text-red-400">{errors.OrganizationName.message}</p>
                   ) : null}
                 </div>
 
@@ -276,9 +276,9 @@ export default function RegisterOrgForm() {
                     id="name"
                     autoComplete="name"
                     className="w-full rounded-md border border-[#f3ebd747] bg-black/30 px-3 py-2 text-sm text-[#f3ebd7] outline-none ring-0 focus:border-cyan-300"
-                    {...register("name")}
+                    {...register("Name")}
                   />
-                  {errors.name ? <p className="text-sm text-red-400">{errors.name.message}</p> : null}
+                  {errors.Name ? <p className="text-sm text-red-400">{errors.Name.message}</p> : null}
                 </div>
 
                 <div className="space-y-1" data-signup="field">
@@ -290,9 +290,9 @@ export default function RegisterOrgForm() {
                     type="email"
                     autoComplete="email"
                     className="w-full rounded-md border border-[#f3ebd747] bg-black/30 px-3 py-2 text-sm text-[#f3ebd7] outline-none ring-0 focus:border-cyan-300"
-                    {...register("email")}
+                    {...register("Email")}
                   />
-                  {errors.email ? <p className="text-sm text-red-400">{errors.email.message}</p> : null}
+                  {errors.Email ? <p className="text-sm text-red-400">{errors.Email.message}</p> : null}
                 </div>
 
                 <div className="space-y-1" data-signup="field">
@@ -304,10 +304,10 @@ export default function RegisterOrgForm() {
                     type="password"
                     autoComplete="new-password"
                     className="w-full rounded-md border border-[#f3ebd747] bg-black/30 px-3 py-2 text-sm text-[#f3ebd7] outline-none ring-0 focus:border-cyan-300"
-                    {...register("password")}
+                    {...register("Password")}
                   />
-                  {errors.password ? (
-                    <p className="text-sm text-red-400">{errors.password.message}</p>
+                  {errors.Password ? (
+                    <p className="text-sm text-red-400">{errors.Password.message}</p>
                   ) : null}
                 </div>
 
@@ -320,10 +320,10 @@ export default function RegisterOrgForm() {
                     type="password"
                     autoComplete="new-password"
                     className="w-full rounded-md border border-[#f3ebd747] bg-black/30 px-3 py-2 text-sm text-[#f3ebd7] outline-none ring-0 focus:border-cyan-300"
-                    {...register("confirmPassword")}
+                    {...register("ConfirmPassword")}
                   />
-                  {errors.confirmPassword ? (
-                    <p className="text-sm text-red-400">{errors.confirmPassword.message}</p>
+                  {errors.ConfirmPassword ? (
+                    <p className="text-sm text-red-400">{errors.ConfirmPassword.message}</p>
                   ) : null}
                 </div>
 

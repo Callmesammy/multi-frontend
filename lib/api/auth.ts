@@ -33,14 +33,14 @@ function deriveDisplayName(email: string): string {
 
 function mapAuthResponse(payload: BackendAuthResponse): AuthResponse {
   return {
-    token: payload.token,
-    user: {
+    Token: payload.token,
+    User: {
       id: payload.userId,
       email: payload.email,
       name: deriveDisplayName(payload.email),
       role: payload.role === "Admin" ? "Admin" : "Member",
     },
-    organization: {
+    Organization: {
       id: payload.organizationId,
       name: payload.organizationName,
     },
@@ -55,34 +55,12 @@ export async function login(payload: LoginRequest): Promise<AuthResponse> {
     try {
       const response = await client.post<ApiResponse<BackendAuthResponse>>(
         endpoint,
-        {
-          email: payload.email,
-          password: payload.password,
-          organizationId: payload.organizationId,
-        },
-      );
-      return mapAuthResponse(unwrapApiResponse(response.data));
-    } catch (error: unknown) {
-      lastError = error;
-
-      const isRetryableBodyError =
-        axios.isAxiosError(error) &&
-        [400, 404, 405, 415].includes(error.response?.status ?? 0);
-
-      if (!isRetryableBodyError) {
-        throw error;
-      }
-    }
-
-    try {
-      const response = await client.post<ApiResponse<BackendAuthResponse>>(
-        endpoint,
         null,
         {
           params: {
-            email: payload.email,
-            password: payload.password,
-            organizationId: payload.organizationId,
+            email: payload.Email,
+            password: payload.Password,
+            organizationId: payload.OrganizationId,
           },
         },
       );
@@ -103,11 +81,11 @@ export async function registerOrganization(
   payload: RegisterOrganizationRequest,
 ): Promise<AuthResponse> {
   const backendPayload: BackendRegisterOrganizationRequest = {
-    organizationName: payload.organizationName,
-    email: payload.email,
-    password: payload.password,
-    adminEmail: payload.email,
-    adminPassword: payload.password,
+    organizationName: payload.OrganizationName,
+    email: payload.Email,
+    password: payload.Password,
+    adminEmail: payload.Email,
+    adminPassword: payload.Password,
   };
 
   const registerEndpoints = [
