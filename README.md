@@ -190,10 +190,10 @@ npm install
 Create `.env.local` in the project root and set your backend origin:
 
 ```env
-BACKEND_API_URL=<your-backend-origin>
+NEXT_PUBLIC_API_URL=<your-backend-origin>
 ```
 
-> In production, the app will fail to start if `BACKEND_API_URL` is not set.
+> In production, the app will fail to start if `NEXT_PUBLIC_API_URL` is not set.
 
 ### 3. Run the dev server
 
@@ -219,7 +219,7 @@ Open [http://localhost:3000](http://localhost:3000).
 ## Deployment (Vercel)
 
 1. Push your code to GitHub and import the repo in [Vercel](https://vercel.com).
-2. Add `BACKEND_API_URL` under **Project Settings → Environment Variables** for the `Production` environment (and `Preview` if needed).
+2. Add `NEXT_PUBLIC_API_URL` under **Project Settings → Environment Variables** for the `Production` environment (and `Preview` if needed).
 3. Deploy. Vercel will run `npm run build` automatically.
 
 > Vercel's Edge Network handles routing and the Next.js rewrites will forward API calls to your backend.

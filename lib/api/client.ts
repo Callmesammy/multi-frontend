@@ -3,7 +3,7 @@ import axios from "axios";
 import { useAuthStore } from "@/lib/stores/auth.store";
 
 export const client = axios.create({
-  // Keep browser calls same-origin; Next.js rewrites /api/* to BACKEND_API_URL.
+  // Keep browser calls same-origin; Next.js rewrites /api/* to NEXT_PUBLIC_API_URL.
   baseURL: "",
 });
 

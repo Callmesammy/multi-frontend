@@ -8,7 +8,7 @@ function normalizeBackendOrigin(rawUrl?: string): string {
   if (!trimmed) {
     if (isProduction) {
       throw new Error(
-        "Missing BACKEND_API_URL in production. Set it in your deployment environment variables.",
+        "Missing NEXT_PUBLIC_API_URL in production. Set it in your deployment environment variables.",
       );
     }
     return fallbackDevUrl;
@@ -23,15 +23,15 @@ function normalizeBackendOrigin(rawUrl?: string): string {
   try {
     const parsed = new URL(withoutApiPath);
     if (!["http:", "https:"].includes(parsed.protocol)) {
-      throw new Error("BACKEND_API_URL must use http or https.");
+      throw new Error("NEXT_PUBLIC_API_URL must use http or https.");
     }
     return parsed.origin;
   } catch {
-    throw new Error(`Invalid BACKEND_API_URL: "${rawUrl}"`);
+    throw new Error(`Invalid NEXT_PUBLIC_API_URL: "${rawUrl}"`);
   }
 }
 
-const backendOrigin = normalizeBackendOrigin(process.env.BACKEND_API_URL);
+const backendOrigin = normalizeBackendOrigin(process.env.NEXT_PUBLIC_API_URL);
 
 const nextConfig: NextConfig = {
   async rewrites() {

@@ -118,7 +118,7 @@ export async function registerOrganization(
 
   if (notFoundEndpoints.length === registerEndpoints.length) {
     throw new Error(
-      `Registration endpoint returned 404 for all known routes (${registerEndpoints.join(", ")}). Check BACKEND_API_URL and backend route mapping.`,
+      `Registration endpoint returned 404 for all known routes (${registerEndpoints.join(", ")}). Check NEXT_PUBLIC_API_URL and backend route mapping.`,
     );
   }
 
