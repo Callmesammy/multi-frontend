@@ -44,7 +44,7 @@ export default function InviteAcceptView({ token }: InviteAcceptViewProps) {
   const processAccept = async (payload: { name?: string; password?: string }) => {
     setErrorMessage(null);
     const response = await acceptInvite({ token, ...payload });
-    setAuth(response.token, response.user, response.organization);
+    setAuth(response.Token, response.User, response.Organization);
     router.push("/dashboard");
   };
 

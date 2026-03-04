@@ -55,14 +55,14 @@ function deriveDisplayName(email: string): string {
 
 function mapAuthResponse(payload: BackendAuthResponse): AuthResponse {
   return {
-    token: payload.token,
-    user: {
+    Token: payload.token,
+    User: {
       id: payload.userId,
       email: payload.email,
       name: deriveDisplayName(payload.email),
       role: payload.role === "Admin" ? "Admin" : "Member",
     },
-    organization: {
+    Organization: {
       id: payload.organizationId,
       name: payload.organizationName,
     },
