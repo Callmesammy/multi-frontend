@@ -12,8 +12,6 @@ This app provides:
 - Session-aware route protection
 - API proxying through Next.js rewrites
 
-The frontend calls relative `/api/*` paths and forwards them to your backend origin from `BACKEND_API_URL`.
-
 ## Tech Stack
 
 - Next.js 16 (App Router)
@@ -47,26 +45,7 @@ middleware.ts           Auth route guard middleware
 npm install
 ```
 
-### 2. Configure environment
-
-Create `.env.local` in project root:
-
-```env
-BACKEND_API_URL=http://localhost:5286
-```
-
-For Azure production:
-
-```env
-BACKEND_API_URL=https://teamflow-gpasggaxb5cxhmc5.polandcentral-01.azurewebsites.net
-```
-
-Notes:
-
-- `BACKEND_API_URL` may include protocol and host only, or host plus `/api`; config normalizes both.
-- In production, missing `BACKEND_API_URL` fails build/start by design.
-
-### 3. Run locally
+### 2. Run locally
 
 ```bash
 npm run dev
@@ -81,15 +60,6 @@ Open `http://localhost:3000`.
 - `npm run start` - run production build
 - `npm run lint` - run ESLint
 
-## API Proxy Model
-
-The app uses same-origin browser requests and rewrites:
-
-- Frontend requests: `/api/...`
-- Next.js rewrites to: `${BACKEND_API_URL}/api/...`
-
-This avoids exposing a public client-side API base URL and simplifies auth + CORS handling.
-
 ## Auth and Route Protection
 
 - Token is stored in Zustand + mirrored to cookie `teamflow-token`.
@@ -102,15 +72,7 @@ This avoids exposing a public client-side API base URL and simplifies auth + COR
 
 ## Deployment (Vercel)
 
-1. Add `BACKEND_API_URL` in Project Settings -> Environment Variables.
-2. Set it for `Production` (and `Preview` if needed).
-3. Redeploy.
-
-Example:
-
-```env
-BACKEND_API_URL=https://teamflow-gpasggaxb5cxhmc5.polandcentral-01.azurewebsites.net
-```
+1. Redeploy.
 
 ## Troubleshooting
 
