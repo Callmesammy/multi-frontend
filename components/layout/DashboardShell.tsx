@@ -34,8 +34,8 @@ export default function DashboardShell({ children }: DashboardShellProps) {
               onClick={() => setMobileOpen(false)}
               aria-label="Close navigation menu"
             />
-            <div className="relative h-full w-72 max-w-[85vw] border-r border-zinc-800 bg-zinc-950 shadow-xl">
-              <div className="flex items-center justify-end border-b border-zinc-800 px-3 py-2">
+            <div className="relative flex h-full w-72 max-w-[85vw] flex-col border-r border-zinc-800 bg-zinc-950 shadow-xl">
+              <div className="flex shrink-0 items-center justify-end border-b border-zinc-800 px-3 py-2">
                 <button
                   type="button"
                   onClick={() => setMobileOpen(false)}
@@ -45,7 +45,9 @@ export default function DashboardShell({ children }: DashboardShellProps) {
                   <X className="h-4 w-4" />
                 </button>
               </div>
-              <Sidebar onNavigate={() => setMobileOpen(false)} />
+              <div className="min-h-0 flex-1">
+                <Sidebar onNavigate={() => setMobileOpen(false)} />
+              </div>
             </div>
           </div>
         ) : null}
