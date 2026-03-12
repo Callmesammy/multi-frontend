@@ -44,8 +44,9 @@ interface BackendPaginatedTasks {
 interface BackendCreateTaskRequest {
   title: string;
   description?: string;
+  status: number;
   priority: number;
-  assigneeId?: string;
+  assigneeId?: string | null;
 }
 
 interface BackendUpdateTaskRequest {
@@ -53,7 +54,7 @@ interface BackendUpdateTaskRequest {
   description?: string;
   status: number;
   priority: number;
-  assigneeId?: string;
+  assigneeId?: string | null;
 }
 
 const taskStatusToNumber: Record<TaskStatus, number> = {
@@ -134,8 +135,9 @@ export async function createTask(payload: CreateTaskRequest): Promise<Task> {
   const backendPayload: BackendCreateTaskRequest = {
     title: payload.title,
     description: payload.description,
+    status: taskStatusToNumber[payload.status],
     priority: taskPriorityToNumber[payload.priority],
-    assigneeId: payload.assigneeId,
+    assigneeId: payload.assigneeId || null,
   };
 
   const response = await client.post<ApiResponse<BackendTask>>(
@@ -154,7 +156,7 @@ export async function updateTask(
     description: payload.description,
     status: taskStatusToNumber[payload.status],
     priority: taskPriorityToNumber[payload.priority],
-    assigneeId: payload.assigneeId,
+    assigneeId: payload.assigneeId || null,
   };
 
   const response = await client.put<ApiResponse<BackendTask>>(

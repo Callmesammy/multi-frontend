@@ -50,7 +50,7 @@ export default function MemberList({ members, currentUserId }: MemberListProps) 
                 </p>
                 <p className="mt-0.5 inline-flex items-center gap-1 text-xs text-zinc-500">
                   <Shield className="h-3.5 w-3.5" />
-                  ID: {member.id.slice(0, 8)}
+                  ID: {member.id}
                 </p>
               </div>
             </div>
@@ -103,7 +103,7 @@ export default function MemberList({ members, currentUserId }: MemberListProps) 
               <div className="flex items-center gap-2">
                 <p className="inline-flex items-center gap-1 rounded-lg border border-zinc-200 bg-zinc-50 px-2 py-1 text-xs text-zinc-500">
                   <UserRound className="h-3.5 w-3.5" />
-                  {member.id.slice(0, 8)}
+                  {member.id}
                 </p>
                 <RoleBadge role={member.role} />
                 {member.id === currentUserId ? (

@@ -14,10 +14,11 @@ export default function DashboardShell({ children }: DashboardShellProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <div className="relative min-h-screen bg-[#09090b] text-zinc-100">
+    <div className="relative flex h-screen flex-col overflow-hidden bg-[#09090b] text-zinc-100">
       <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(circle_at_top,#1f2937_0%,#111827_45%,#09090b_100%)]" />
       <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(circle_at_80%_20%,rgba(20,184,166,0.12),transparent_42%)]" />
-      <div className="flex min-h-screen">
+      
+      <div className="flex flex-1 overflow-hidden">
         <aside className="hidden md:flex md:w-20 md:shrink-0 lg:hidden">
           <Sidebar compact />
         </aside>
@@ -54,7 +55,7 @@ export default function DashboardShell({ children }: DashboardShellProps) {
 
         <div className="flex min-w-0 flex-1 flex-col">
           <Topbar onOpenMenu={() => setMobileOpen(true)} />
-          <main className="flex-1 overflow-y-auto p-4 sm:p-6">{children}</main>
+          <main className="flex-1 overflow-y-auto p-4 pb-20 sm:p-6 md:pb-6">{children}</main>
         </div>
       </div>
     </div>

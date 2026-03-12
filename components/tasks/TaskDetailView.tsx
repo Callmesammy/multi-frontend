@@ -117,13 +117,21 @@ export default function TaskDetailView({ taskId }: TaskDetailViewProps) {
 
       {editing ? (
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-zinc-950/45 p-4">
-          <div className="w-full max-w-xl rounded-xl bg-white p-6 shadow-xl">
-            <TaskForm
-              mode="edit"
-              initialValues={task}
-              onSubmit={handleUpdate}
-              onCancel={() => setEditing(false)}
-            />
+          <button
+            type="button"
+            className="absolute inset-0"
+            onClick={() => setEditing(false)}
+            aria-label="Close edit task modal"
+          />
+          <div className="relative w-full max-w-xl overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xl">
+            <div className="max-h-[85vh] overflow-y-auto p-6">
+              <TaskForm
+                mode="edit"
+                initialValues={task}
+                onSubmit={handleUpdate}
+                onCancel={() => setEditing(false)}
+              />
+            </div>
           </div>
         </div>
       ) : null}
