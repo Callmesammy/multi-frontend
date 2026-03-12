@@ -27,7 +27,7 @@ const bodyFont = Manrope({
 
 const loginSchema = z.object({
   Email: z.string().email("Enter a valid email address."),
-  Password: z.string().min(6, "Password must be at least 6 characters."),
+  Password: z.string().min(8, "Password must be at least 8 characters, including uppercase and lowercase letters, number and special character."),
   OrganizationId: z.string().uuid("Enter a valid organization ID."),
 });
 

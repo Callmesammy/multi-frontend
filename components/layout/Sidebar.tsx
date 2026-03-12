@@ -15,7 +15,6 @@ interface SidebarProps {
 const navItems = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { label: "Tasks", href: "/tasks", icon: CheckSquare },
-  { label: "Members", href: "/members", icon: Users },
   { label: "Settings", href: "/settings", icon: Settings },
 ];
 
@@ -41,7 +40,7 @@ export default function Sidebar({ compact = false, onNavigate }: SidebarProps) {
             width={24}
             height={24}
             className="h-6 w-6 shrink-0"
-          />
+          /> 
           {compact ? null : (
             <p className="truncate text-xs font-semibold uppercase tracking-[0.2em] text-zinc-300">
               TeamFlow

@@ -73,7 +73,7 @@ export default function MembersView() {
 
     try {
       await inviteMutation.mutateAsync({ email });
-      setSuccessMessage(`Invite sent to ${email}`);
+      setSuccessMessage("total trial exceed");
       setInviteOpen(false);
     } catch (error: unknown) {
       setErrorMessage(handleApiError(error));
@@ -189,8 +189,8 @@ export default function MembersView() {
       </section>
 
       {successMessage ? (
-        <section className="rounded-xl border border-emerald-200 bg-emerald-50 p-3">
-          <p className="text-sm text-emerald-800">{successMessage}</p>
+        <section className="rounded-xl border border-red-200 bg-red-50 p-3">
+          <p className="text-sm text-red-800">{successMessage}</p>
         </section>
       ) : null}
 

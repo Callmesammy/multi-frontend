@@ -33,8 +33,8 @@ const registerSchema = z
       .max(50, "Organization name must be at most 50 characters."),
     Name: z.string().min(2, "Your name must be at least 2 characters."),
     Email: z.string().email("Enter a valid email address."),
-    Password: z.string().min(8, "Password must be at least 8 characters."),
-    ConfirmPassword: z.string().min(8, "Confirm password is required."),
+    Password: z.string().min(8, "Password must be at least 8 characters,  including uppercase and lowercase letters, number and special character."),
+    ConfirmPassword: z.string().min(8, "Confirm password is required,  including uppercase and lowercase letters, number and special character."),
   })
   .refine((values) => values.Password === values.ConfirmPassword, {
     message: "Passwords do not match.",
